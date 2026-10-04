@@ -200,6 +200,30 @@
             gap: 15px;
         }
 
+        /* Поле ввода ника */
+        .nickname-input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(114, 137, 218, 0.3);
+            border-radius: 12px;
+            color: #e0e0e0;
+            font-size: 16px;
+            margin-bottom: 20px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .nickname-input:focus {
+            border-color: #7289da;
+            background: rgba(114, 137, 218, 0.1);
+            box-shadow: 0 0 15px rgba(114, 137, 218, 0.3);
+        }
+
+        .nickname-input::placeholder {
+            color: #606070;
+        }
+
         /* Результаты */
         .results {
             display: none;
@@ -314,8 +338,17 @@
 
         .start-screen p {
             color: #a0a0b0;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             line-height: 1.6;
+        }
+
+        .input-label {
+            text-align: left;
+            display: block;
+            color: #7289da;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
         }
 
         .rules-list {
@@ -324,7 +357,7 @@
             padding: 20px;
             background: rgba(255, 255, 255, 0.03);
             border-radius: 12px;
-            max-height: 300px;
+            max-height: 250px;
             overflow-y: auto;
         }
 
@@ -339,7 +372,24 @@
             color: #a0a0b0;
         }
 
-        /* Скроллбар */
+        .error-message {
+            color: #f04747;
+            font-size: 13px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .saving-status {
+            color: #a0a0b0;
+            font-size: 13px;
+            margin-top: 15px;
+            min-height: 20px;
+        }
+
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -368,6 +418,9 @@
                 font-size: 14px;
                 padding: 14px 16px;
             }
+            .start-screen h1 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
@@ -377,8 +430,19 @@
         <div id="startScreen" class="start-screen">
             <h1>📜 Проверка знаний правил</h1>
             <p>Проверьте, насколько хорошо вы знаете правила Discord-сервера.<br>
-            Вам будет задано <strong>15 вопросов</strong> на основе правил сервера.</p>
-            
+            Вам будет задано <strong>15 вопросов</strong>.</p>
+
+            <label class="input-label" for="nicknameInput">Ваш ник в Discord</label>
+            <input 
+                type="text" 
+                id="nicknameInput" 
+                class="nickname-input" 
+                placeholder="Например: Username#1234 или @username"
+                maxlength="50"
+                autocomplete="off"
+            >
+            <div class="error-message" id="errorMessage">Пожалуйста, введите ваш ник перед началом теста</div>
+
             <div class="rules-list">
                 <p><strong>1.1.</strong> Политические и межнациональные конфликты</p>
                 <p><strong>1.2.</strong> Спам и флуд</p>
@@ -410,6 +474,7 @@
         <div id="quizScreen" style="display: none;">
             <div class="header">
                 <h1>📜 Проверка знаний правил</h1>
+                <p id="playerNameDisplay"></p>
             </div>
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
@@ -431,6 +496,7 @@
                 <span class="score-label">из 15</span>
             </div>
             <div class="result-message" id="resultMessage"></div>
+            <div class="saving-status" id="savingStatus"></div>
             <div class="breakdown" id="breakdown"></div>
             <div class="btn-container">
                 <button class="btn btn-primary" onclick="restartQuiz()">Пройти заново</button>
@@ -439,7 +505,12 @@
     </div>
 
     <script>
-        // Вопросы на основе правил
+        // ============================================================
+        // ВАЖНО: Вставьте сюда URL вашего Google Apps Script (см. инструкцию ниже)
+        // ============================================================
+        const SCRIPT_URL = 'ВСТАВЬТЕ_СЮДА_ВАШ_URL_ОТ_APPS_SCRIPT';
+        // ============================================================
+
         const questions = [
             {
                 question: "Какое наказание предусмотрено за политические провокации и разжигание межнациональных конфликтов?",
@@ -612,8 +683,24 @@
         let score = 0;
         let answered = false;
         let userAnswers = [];
+        let nickname = '';
 
         function startQuiz() {
+            const input = document.getElementById('nicknameInput');
+            const errorMsg = document.getElementById('errorMessage');
+            const name = input.value.trim();
+
+            if (name.length < 2) {
+                errorMsg.classList.add('show');
+                input.focus();
+                return;
+            }
+
+            errorMsg.classList.remove('show');
+            nickname = name;
+            localStorage.setItem('discord_nickname', name);
+
+            document.getElementById('playerNameDisplay').textContent = '👤 ' + nickname;
             document.getElementById('startScreen').style.display = 'none';
             document.getElementById('quizScreen').style.display = 'block';
             document.getElementById('resultsScreen').classList.remove('show');
@@ -627,15 +714,11 @@
             answered = false;
             const q = questions[currentQuestion];
             
-            // Обновляем прогресс
-            const progress = ((currentQuestion) / questions.length) * 100;
+            const progress = (currentQuestion / questions.length) * 100;
             document.getElementById('progressFill').style.width = progress + '%';
             document.getElementById('questionCounter').textContent = `Вопрос ${currentQuestion + 1} из ${questions.length}`;
-            
-            // Показываем вопрос
             document.getElementById('questionText').textContent = q.question;
             
-            // Показываем варианты
             const optionsContainer = document.getElementById('optionsContainer');
             optionsContainer.innerHTML = '';
             
@@ -647,7 +730,6 @@
                 optionsContainer.appendChild(div);
             });
             
-            // Скрываем объяснение и кнопку
             document.getElementById('explanation').classList.remove('show');
             document.getElementById('nextBtn').disabled = true;
             document.getElementById('nextBtn').textContent = currentQuestion === questions.length - 1 ? 'Показать результаты' : 'Далее';
@@ -660,20 +742,15 @@
             const q = questions[currentQuestion];
             const options = document.querySelectorAll('.option');
             
-            // Отключаем все варианты
             options.forEach(opt => opt.classList.add('disabled'));
-            
-            // Отмечаем выбранный
             element.classList.add('selected');
             
-            // Проверяем правильность
             const isCorrect = index === q.correct;
             if (isCorrect) {
                 score++;
                 element.classList.add('correct');
             } else {
                 element.classList.add('incorrect');
-                // Показываем правильный ответ
                 options[q.correct].classList.add('correct');
             }
             
@@ -683,12 +760,10 @@
                 correctAnswer: q.options[q.correct]
             });
             
-            // Показываем объяснение
             const explanation = document.getElementById('explanation');
             explanation.textContent = (isCorrect ? '✅ Верно! ' : '❌ Неверно. ') + q.explanation;
             explanation.classList.add('show');
             
-            // Активируем кнопку "Далее"
             document.getElementById('nextBtn').disabled = false;
         }
 
@@ -709,12 +784,10 @@
             const percentage = Math.round((score / questions.length) * 100);
             const passed = percentage >= 70;
             
-            // Обновляем круг с очками
             const scoreCircle = document.getElementById('scoreCircle');
             scoreCircle.className = 'score-circle ' + (passed ? 'pass' : 'fail');
             document.getElementById('scoreNumber').textContent = score;
             
-            // Сообщение
             const resultMessage = document.getElementById('resultMessage');
             if (percentage === 100) {
                 resultMessage.textContent = '🏆 Идеально! Вы отлично знаете правила!';
@@ -727,7 +800,6 @@
                 resultMessage.className = 'result-message fail';
             }
             
-            // Разбор ответов
             const breakdown = document.getElementById('breakdown');
             breakdown.innerHTML = '<h3 style="margin-bottom: 15px; color: #7289da;">Разбор ответов:</h3>';
             
@@ -743,13 +815,64 @@
                 `;
                 breakdown.appendChild(div);
             });
+
+            // Отправляем результат на сервер
+            sendResultToServer();
+        }
+
+        function sendResultToServer() {
+            const statusEl = document.getElementById('savingStatus');
+            
+            if (SCRIPT_URL.includes('ВСТАВЬТЕ_СЮДА')) {
+                statusEl.textContent = '⚠️ Результат не сохранён: URL сервера не настроен.';
+                statusEl.style.color = '#f04747';
+                return;
+            }
+
+            statusEl.textContent = '⏳ Сохранение результата...';
+            statusEl.style.color = '#a0a0b0';
+
+            const payload = {
+                nickname: nickname,
+                score: score,
+                total: questions.length,
+                percentage: Math.round((score / questions.length) * 100),
+                userAgent: navigator.userAgent
+            };
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                statusEl.textContent = '✅ Результат сохранён!';
+                statusEl.style.color = '#43b581';
+            })
+            .catch(() => {
+                statusEl.textContent = '⚠️ Не удалось сохранить результат.';
+                statusEl.style.color = '#f04747';
+            });
         }
 
         function restartQuiz() {
             document.getElementById('resultsScreen').classList.remove('show');
             document.getElementById('quizScreen').style.display = 'none';
             document.getElementById('startScreen').style.display = 'block';
+            // Ник остаётся введённым
+            document.getElementById('nicknameInput').value = nickname;
         }
+
+        // При загрузке страницы — подставляем сохранённый ник
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('discord_nickname');
+            if (saved) {
+                document.getElementById('nicknameInput').value = saved;
+            }
+        });
     </script>
 </body>
 </html>
