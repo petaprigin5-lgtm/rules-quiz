@@ -13,23 +13,23 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: #000000;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            color: #e0e0e0;
+            color: #ffffff;
         }
 
         .container {
-            background: rgba(30, 30, 50, 0.95);
-            border-radius: 20px;
+            background: #0a0a0a;
+            border-radius: 4px;
             padding: 40px;
             max-width: 800px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(114, 137, 218, 0.3);
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.03);
         }
 
         .header {
@@ -38,123 +38,138 @@
         }
 
         .header h1 {
-            font-size: 28px;
-            color: #7289da;
+            font-size: 26px;
+            color: #ffffff;
             margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(114, 137, 218, 0.5);
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
         .header p {
-            color: #a0a0b0;
-            font-size: 14px;
+            color: #888888;
+            font-size: 13px;
+            letter-spacing: 0.5px;
         }
 
         .progress-bar {
             width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            height: 3px;
+            background: #1a1a1a;
             margin-bottom: 30px;
             overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #7289da, #43b581);
-            border-radius: 10px;
+            background: #ffffff;
             transition: width 0.4s ease;
             width: 0%;
         }
 
         .question-counter {
             text-align: center;
-            color: #7289da;
-            font-size: 14px;
+            color: #888888;
+            font-size: 12px;
             margin-bottom: 15px;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .question-text {
             font-size: 20px;
             line-height: 1.6;
             margin-bottom: 25px;
-            padding: 20px;
-            background: rgba(114, 137, 218, 0.1);
-            border-radius: 12px;
-            border-left: 4px solid #7289da;
+            padding: 24px;
+            background: #111111;
+            border: 1px solid #2a2a2a;
+            border-left: 3px solid #ffffff;
+            font-weight: 400;
         }
 
         .options {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 25px;
         }
 
         .option {
             padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(114, 137, 218, 0.3);
-            border-radius: 12px;
+            background: #0a0a0a;
+            border: 1px solid #2a2a2a;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 16px;
+            transition: all 0.2s ease;
+            font-size: 15px;
             line-height: 1.4;
             color: #e0e0e0;
             position: relative;
         }
 
         .option:hover:not(.disabled) {
-            background: rgba(114, 137, 218, 0.2);
-            border-color: #7289da;
-            transform: translateX(5px);
+            background: #1a1a1a;
+            border-color: #555555;
+            padding-left: 24px;
         }
 
         .option.selected {
-            background: rgba(114, 137, 218, 0.3);
-            border-color: #7289da;
+            background: #1a1a1a;
+            border-color: #888888;
         }
 
         .option.correct {
-            background: rgba(67, 181, 129, 0.3);
-            border-color: #43b581;
-            animation: pulse-green 0.5s ease;
+            background: #1a1a1a;
+            border-color: #ffffff;
+            border-left: 4px solid #ffffff;
+            color: #ffffff;
+            font-weight: 500;
         }
 
         .option.incorrect {
-            background: rgba(240, 71, 71, 0.3);
-            border-color: #f04747;
-            animation: pulse-red 0.5s ease;
+            background: #0a0a0a;
+            border-color: #444444;
+            border-left: 4px solid #666666;
+            color: #999999;
+            text-decoration: line-through;
+            text-decoration-color: #666666;
+        }
+
+        .option.correct::after {
+            content: '✓';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .option.incorrect::after {
+            content: '✕';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666666;
+            font-size: 18px;
+            font-weight: bold;
         }
 
         .option.disabled {
             cursor: not-allowed;
-            opacity: 0.8;
-        }
-
-        @keyframes pulse-green {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes pulse-red {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
         }
 
         .explanation {
-            padding: 15px 20px;
-            background: rgba(114, 137, 218, 0.15);
-            border-radius: 10px;
+            padding: 16px 20px;
+            background: #111111;
             margin-bottom: 20px;
-            border-left: 4px solid #7289da;
-            font-size: 14px;
-            line-height: 1.5;
-            color: #b0b0c0;
+            border-left: 3px solid #444444;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #b0b0b0;
             display: none;
-            animation: fadeIn 0.4s ease;
+            animation: fadeIn 0.3s ease;
         }
 
         .explanation.show {
@@ -162,35 +177,38 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
+            from { opacity: 0; transform: translateY(-5px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .btn {
             padding: 14px 32px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
+            border: 1px solid #ffffff;
+            border-radius: 0;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            background: transparent;
+            color: #ffffff;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #7289da, #5b6eae);
-            color: white;
-            box-shadow: 0 4px 15px rgba(114, 137, 218, 0.4);
+            background: #ffffff;
+            color: #000000;
         }
 
         .btn-primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(114, 137, 218, 0.6);
+            background: #cccccc;
+            border-color: #cccccc;
         }
 
         .btn-primary:disabled {
-            opacity: 0.5;
+            background: #1a1a1a;
+            color: #444444;
+            border-color: #2a2a2a;
             cursor: not-allowed;
         }
 
@@ -204,31 +222,31 @@
         .nickname-input {
             width: 100%;
             padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(114, 137, 218, 0.3);
-            border-radius: 12px;
-            color: #e0e0e0;
-            font-size: 16px;
-            margin-bottom: 20px;
+            background: #0a0a0a;
+            border: 1px solid #2a2a2a;
+            border-radius: 0;
+            color: #ffffff;
+            font-size: 15px;
+            margin-bottom: 15px;
             outline: none;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            letter-spacing: 0.5px;
         }
 
         .nickname-input:focus {
-            border-color: #7289da;
-            background: rgba(114, 137, 218, 0.1);
-            box-shadow: 0 0 15px rgba(114, 137, 218, 0.3);
+            border-color: #ffffff;
+            background: #111111;
         }
 
         .nickname-input::placeholder {
-            color: #606070;
+            color: #555555;
         }
 
         /* Результаты */
         .results {
             display: none;
             text-align: center;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.4s ease;
         }
 
         .results.show {
@@ -236,14 +254,17 @@
         }
 
         .results h2 {
-            font-size: 32px;
-            margin-bottom: 20px;
-            color: #7289da;
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 600;
         }
 
         .score-circle {
-            width: 150px;
-            height: 150px;
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
             margin: 0 auto 25px;
             display: flex;
@@ -251,60 +272,76 @@
             justify-content: center;
             align-items: center;
             position: relative;
-            background: rgba(114, 137, 218, 0.1);
-            border: 6px solid #7289da;
+            background: #0a0a0a;
+            border: 2px solid #2a2a2a;
         }
 
         .score-circle.pass {
-            border-color: #43b581;
+            border-color: #ffffff;
         }
 
         .score-circle.fail {
-            border-color: #f04747;
+            border-color: #444444;
         }
 
         .score-number {
-            font-size: 48px;
+            font-size: 52px;
             font-weight: 700;
             color: #ffffff;
+            line-height: 1;
         }
 
         .score-label {
-            font-size: 14px;
-            color: #a0a0b0;
+            font-size: 12px;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 8px;
         }
 
         .result-message {
-            font-size: 18px;
+            font-size: 16px;
             margin-bottom: 25px;
             line-height: 1.6;
+            color: #cccccc;
+            padding: 0 20px;
         }
 
         .result-message.pass {
-            color: #43b581;
+            color: #ffffff;
+            font-weight: 500;
         }
 
         .result-message.fail {
-            color: #f04747;
+            color: #888888;
         }
 
         .breakdown {
             text-align: left;
             margin: 25px 0;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
             max-height: 300px;
             overflow-y: auto;
         }
 
+        .breakdown h3 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #888888;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
         .breakdown-item {
             padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 14px;
+            border-bottom: 1px solid #1a1a1a;
+            font-size: 13px;
             display: flex;
             align-items: flex-start;
-            gap: 10px;
+            gap: 12px;
         }
 
         .breakdown-item:last-child {
@@ -312,17 +349,26 @@
         }
 
         .breakdown-icon {
-            font-size: 18px;
+            font-size: 14px;
             flex-shrink: 0;
+            width: 20px;
+            text-align: center;
+            color: #ffffff;
         }
 
         .breakdown-text {
-            color: #b0b0c0;
-            line-height: 1.4;
+            color: #888888;
+            line-height: 1.5;
         }
 
         .breakdown-text strong {
             color: #e0e0e0;
+            font-weight: 500;
+        }
+
+        .breakdown-text em {
+            color: #666666;
+            font-style: normal;
         }
 
         .start-screen {
@@ -330,53 +376,66 @@
         }
 
         .start-screen h1 {
-            font-size: 32px;
-            color: #7289da;
+            font-size: 28px;
+            color: #ffffff;
             margin-bottom: 15px;
-            text-shadow: 0 0 20px rgba(114, 137, 218, 0.5);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
-        .start-screen p {
-            color: #a0a0b0;
-            margin-bottom: 20px;
+        .start-screen > p {
+            color: #888888;
+            margin-bottom: 25px;
             line-height: 1.6;
+            font-size: 14px;
         }
 
         .input-label {
             text-align: left;
             display: block;
-            color: #7289da;
+            color: #888888;
             font-weight: 600;
             margin-bottom: 8px;
-            font-size: 14px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .rules-list {
             text-align: left;
             margin: 20px 0 30px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
-            max-height: 250px;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            max-height: 220px;
             overflow-y: auto;
         }
 
         .rules-list p {
-            font-size: 13px;
-            color: #808090;
+            font-size: 12px;
+            color: #666666;
             margin-bottom: 8px;
-            line-height: 1.4;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
         }
 
         .rules-list p strong {
-            color: #a0a0b0;
+            color: #aaaaaa;
+            font-weight: 600;
+            margin-right: 4px;
         }
 
         .error-message {
-            color: #f04747;
-            font-size: 13px;
+            color: #ffffff;
+            background: #1a1a1a;
+            padding: 10px 15px;
+            border-left: 3px solid #888888;
+            font-size: 12px;
             margin-bottom: 15px;
             display: none;
+            text-align: left;
+            letter-spacing: 0.5px;
         }
 
         .error-message.show {
@@ -384,10 +443,11 @@
         }
 
         .saving-status {
-            color: #a0a0b0;
-            font-size: 13px;
+            color: #666666;
+            font-size: 12px;
             margin-top: 15px;
             min-height: 20px;
+            letter-spacing: 0.5px;
         }
 
         ::-webkit-scrollbar {
@@ -395,13 +455,15 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
+            background: #0a0a0a;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #7289da;
-            border-radius: 10px;
+            background: #333333;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555555;
         }
 
         @media (max-width: 600px) {
@@ -409,17 +471,27 @@
                 padding: 25px 20px;
             }
             .header h1 {
-                font-size: 22px;
+                font-size: 18px;
+                letter-spacing: 1px;
             }
             .question-text {
-                font-size: 17px;
+                font-size: 16px;
+                padding: 18px;
             }
             .option {
-                font-size: 14px;
+                font-size: 13px;
                 padding: 14px 16px;
             }
             .start-screen h1 {
-                font-size: 24px;
+                font-size: 20px;
+                letter-spacing: 1px;
+            }
+            .score-number {
+                font-size: 42px;
+            }
+            .btn {
+                padding: 12px 24px;
+                font-size: 12px;
             }
         }
     </style>
@@ -428,20 +500,20 @@
     <div class="container">
         <!-- Стартовый экран -->
         <div id="startScreen" class="start-screen">
-            <h1>📜 Проверка знаний правил</h1>
+            <h1>Проверка знаний правил</h1>
             <p>Проверьте, насколько хорошо вы знаете правила Discord-сервера.<br>
-            Вам будет задано <strong>15 вопросов</strong>.</p>
+            Вам будет задано <strong style="color:#fff">15 вопросов</strong>.</p>
 
             <label class="input-label" for="nicknameInput">Ваш ник в Discord</label>
             <input 
                 type="text" 
                 id="nicknameInput" 
                 class="nickname-input" 
-                placeholder="Например: Username#1234 или @username"
+                placeholder="Например: @username"
                 maxlength="50"
                 autocomplete="off"
             >
-            <div class="error-message" id="errorMessage">Пожалуйста, введите ваш ник перед началом теста</div>
+            <div class="error-message" id="errorMessage">Введите ваш ник перед началом теста</div>
 
             <div class="rules-list">
                 <p><strong>1.1.</strong> Политические и межнациональные конфликты</p>
@@ -473,7 +545,7 @@
         <!-- Экран вопросов -->
         <div id="quizScreen" style="display: none;">
             <div class="header">
-                <h1>📜 Проверка знаний правил</h1>
+                <h1>Проверка знаний правил</h1>
                 <p id="playerNameDisplay"></p>
             </div>
             <div class="progress-bar">
@@ -506,7 +578,7 @@
 
     <script>
         // ============================================================
-        // ВАЖНО: Вставьте сюда URL вашего Google Apps Script (см. инструкцию ниже)
+        // ВАЖНО: Вставьте сюда URL вашего Google Apps Script
         // ============================================================
         const SCRIPT_URL = 'ВСТАВЬТЕ_СЮДА_ВАШ_URL_ОТ_APPS_SCRIPT';
         // ============================================================
@@ -700,7 +772,7 @@
             nickname = name;
             localStorage.setItem('discord_nickname', name);
 
-            document.getElementById('playerNameDisplay').textContent = '👤 ' + nickname;
+            document.getElementById('playerNameDisplay').textContent = 'Участник: ' + nickname;
             document.getElementById('startScreen').style.display = 'none';
             document.getElementById('quizScreen').style.display = 'block';
             document.getElementById('resultsScreen').classList.remove('show');
@@ -732,7 +804,7 @@
             
             document.getElementById('explanation').classList.remove('show');
             document.getElementById('nextBtn').disabled = true;
-            document.getElementById('nextBtn').textContent = currentQuestion === questions.length - 1 ? 'Показать результаты' : 'Далее';
+            document.getElementById('nextBtn').textContent = currentQuestion === questions.length - 1 ? 'Результаты' : 'Далее';
         }
 
         function selectAnswer(index, element) {
@@ -761,7 +833,7 @@
             });
             
             const explanation = document.getElementById('explanation');
-            explanation.textContent = (isCorrect ? '✅ Верно! ' : '❌ Неверно. ') + q.explanation;
+            explanation.textContent = (isCorrect ? '✓ Верно. ' : '✕ Неверно. ') + q.explanation;
             explanation.classList.add('show');
             
             document.getElementById('nextBtn').disabled = false;
@@ -790,33 +862,32 @@
             
             const resultMessage = document.getElementById('resultMessage');
             if (percentage === 100) {
-                resultMessage.textContent = '🏆 Идеально! Вы отлично знаете правила!';
+                resultMessage.textContent = 'Идеально. Вы отлично знаете правила.';
                 resultMessage.className = 'result-message pass';
             } else if (passed) {
-                resultMessage.textContent = `👍 Хорошо! Вы набрали ${percentage}%. Вы знаете правила, но есть куда стремиться.`;
+                resultMessage.textContent = `Хорошо. Вы набрали ${percentage}%. Есть куда стремиться.`;
                 resultMessage.className = 'result-message pass';
             } else {
-                resultMessage.textContent = `📚 Вы набрали ${percentage}%. Рекомендуем внимательно перечитать правила сервера.`;
+                resultMessage.textContent = `Вы набрали ${percentage}%. Рекомендуем перечитать правила сервера.`;
                 resultMessage.className = 'result-message fail';
             }
             
             const breakdown = document.getElementById('breakdown');
-            breakdown.innerHTML = '<h3 style="margin-bottom: 15px; color: #7289da;">Разбор ответов:</h3>';
+            breakdown.innerHTML = '<h3>Разбор ответов</h3>';
             
             userAnswers.forEach((answer, index) => {
                 const div = document.createElement('div');
                 div.className = 'breakdown-item';
                 div.innerHTML = `
-                    <span class="breakdown-icon">${answer.isCorrect ? '✅' : '❌'}</span>
+                    <span class="breakdown-icon">${answer.isCorrect ? '✓' : '✕'}</span>
                     <span class="breakdown-text">
-                        <strong>Вопрос ${index + 1}:</strong> ${answer.isCorrect ? 'Правильно' : 'Неправильно'}<br>
+                        <strong>Вопрос ${index + 1}</strong> — ${answer.isCorrect ? 'правильно' : 'неправильно'}<br>
                         ${!answer.isCorrect ? `<em>Правильный ответ: ${answer.correctAnswer}</em>` : ''}
                     </span>
                 `;
                 breakdown.appendChild(div);
             });
 
-            // Отправляем результат на сервер
             sendResultToServer();
         }
 
@@ -824,13 +895,13 @@
             const statusEl = document.getElementById('savingStatus');
             
             if (SCRIPT_URL.includes('ВСТАВЬТЕ_СЮДА')) {
-                statusEl.textContent = '⚠️ Результат не сохранён: URL сервера не настроен.';
-                statusEl.style.color = '#f04747';
+                statusEl.textContent = '⚠ Результат не сохранён: URL сервера не настроен.';
+                statusEl.style.color = '#888888';
                 return;
             }
 
             statusEl.textContent = '⏳ Сохранение результата...';
-            statusEl.style.color = '#a0a0b0';
+            statusEl.style.color = '#888888';
 
             const payload = {
                 nickname: nickname,
@@ -849,12 +920,12 @@
                 body: JSON.stringify(payload)
             })
             .then(() => {
-                statusEl.textContent = '✅ Результат сохранён!';
-                statusEl.style.color = '#43b581';
+                statusEl.textContent = '✓ Результат сохранён.';
+                statusEl.style.color = '#ffffff';
             })
             .catch(() => {
-                statusEl.textContent = '⚠️ Не удалось сохранить результат.';
-                statusEl.style.color = '#f04747';
+                statusEl.textContent = '⚠ Не удалось сохранить результат.';
+                statusEl.style.color = '#888888';
             });
         }
 
@@ -862,11 +933,9 @@
             document.getElementById('resultsScreen').classList.remove('show');
             document.getElementById('quizScreen').style.display = 'none';
             document.getElementById('startScreen').style.display = 'block';
-            // Ник остаётся введённым
             document.getElementById('nicknameInput').value = nickname;
         }
 
-        // При загрузке страницы — подставляем сохранённый ник
         window.addEventListener('DOMContentLoaded', () => {
             const saved = localStorage.getItem('discord_nickname');
             if (saved) {
